@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+</head>
+<body>
+	<h1>Welcome to the Homepage</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Playlist</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="p : ${userPlaylists}">
+				<td>
+					<a th:href="@{/GoToPlaylistPage(playlist_ID=${p.id})}" th:text="${p.playlist_name}">
+					</a>
+				</td>
+				<td th:text="${p.creationDate}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div>
+		<h2>Create a new playlist</h2>
+		<form action="CreateNewPlaylist" method="POST">
+			Playlist name: <input type="text" name="playlist_name" required />
+			<input type="submit" name="Create Mission">
+		</form>
+	</div>
+	
+	<div>
+		<h2>Upload a new song</h2>
+		<form action="CreateNewSong" method="POST">
+			Song title: <input type="text" name="song_title" required />
+			File: <input type="file" name="file" required />
+			Genre: <select>
+				<!-- specificare i generi -->
+				</select>
+			Album:<select> 
+				<!-- specificare gli album con th -->
+				</select>
+			<!-- attributi opzionali degli album -->
+			<input type="submit" name="Create Mission">
+		</form>
+	</div>
+
+</body>
+</html>

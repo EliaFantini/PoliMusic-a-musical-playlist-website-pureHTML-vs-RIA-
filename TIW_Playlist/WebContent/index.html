@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+</head>
+<body>
+	<h1>Welcome to the musical playlist application</h1>
+
+	<form action="CheckLogin" method="POST">
+		Username: <input type="text" name="username" required> <br>
+		Password: <input type="password" name="password" required><br>
+		<input type="submit" value="login">
+		<p th:text=" ${errorMsg}"></p>
+	</form>
+
+</body>
+</html>
