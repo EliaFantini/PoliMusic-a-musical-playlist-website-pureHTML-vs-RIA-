@@ -3,7 +3,7 @@ package it.polimi.tiw.projects.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ import it.polimi.tiw.projects.beans.Song;
 import it.polimi.tiw.projects.dao.AlbumDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
-@WebServlet("/Homepage")
+@WebServlet("/GoToPlayerPage")
 public class GoToPlayerPage extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -52,17 +52,28 @@ public class GoToPlayerPage extends HttpServlet{
 			response.sendRedirect(loginPath);
 			return;
 		}
-		//song e album devono essere gi‡ nel contesto da PlaylistPage
+		//song e album devono essere gi√† nel contesto da PlaylistPage
 		String path = "/WEB-INF/Player.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		AlbumDAO albumDAO= new AlbumDAO(connection);
-		Song song = (Song) ctx.getVariable("song");
+		Integer song_ID = (Integer) request.getAttribute("song_ID");
+		@SuppressWarnings("unchecked")
+		List<Song> currentSongs = (List<Song>) ctx.getVariable("currentSongs");
+		Song song = null;
+		for (Song s : currentSongs) {
+			if (s.getSongID() == song_ID) {
+				song = s;
+				break;
+			}
+		}
 		Album album = null;
-		try {
-			album = albumDAO.findAlbumBySongId(song.getId());
-		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover album");
+		if (song != null) {
+			try {
+				album = albumDAO.findAlbumBySongId(song.getSongID());
+			} catch (SQLException e) {
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover album");
+			}
 		}
 		ctx.setVariable("album", album);
 		templateEngine.process(path, ctx, response.getWriter());
