@@ -7,6 +7,8 @@ public class Album {
 	private String interpreter;
 	private int publicationYear;
 	private Part cover;
+	
+	
 	public String getTitle() {
 		return title;
 	}
