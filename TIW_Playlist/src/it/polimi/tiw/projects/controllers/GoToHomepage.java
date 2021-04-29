@@ -58,7 +58,7 @@ public class GoToHomepage extends HttpServlet{
 		PlaylistDAO playlistDAO = new PlaylistDAO(connection);
 		List<Playlist> playlists = new ArrayList<Playlist>();
 		try {
-			playlists = playlistsDAO.findPlaylistByUser(user.getId());
+			playlists = playlistDAO.findPlaylistByUser(user.getId());
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlists");
 			return;
@@ -68,7 +68,7 @@ public class GoToHomepage extends HttpServlet{
 		String path = "/WEB-INF/Homepage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("playlists", playlists);
+		ctx.setVariable("userPlaylists", playlists);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 
