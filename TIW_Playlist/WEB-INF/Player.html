@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Player Page</title>
+</head>
+<body>
+	<h1 th:text="${song.title}">Song Title </h1>
+	<div>
+		<p th:text=" ${'Interpreter: ' + album.interpreter}"></p>
+		<p th:text=" ${'Publication year: ' + album.interpreter}"></p>
+		<p th:text="${'Genre: ' + song.genre}"></p> 
+		<p th:text="${'Album: ' + album.title}"></p> 
+		<img  th:src="${album.cover}" alt="Cover">
+	</div>
+	<br>
+	<br>
+	<br>
+	<div>
+		<audio controls>
+         <source th:src = "${song.file}" type = "audio/mpeg">
+      </audio>
+	</div>
+	
+</body>
+</html>
