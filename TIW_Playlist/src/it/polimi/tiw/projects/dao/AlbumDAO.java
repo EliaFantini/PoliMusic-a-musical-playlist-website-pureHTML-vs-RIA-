@@ -18,7 +18,7 @@ public class AlbumDAO {
 		this.connection = connection;
 	}
 	public void createNewAlbum(String title,String interpreter,int publicationYear,  int userId, Part cover) throws SQLException, IOException { // ..,cover)
-		String query = "INSERT into album (title, interpreter, year, cover, userID) VALUES(?, ?, ,? ,? ,?)";
+		String query = "INSERT into album (album_title, interpreter, publication_year, image, user_ID) VALUES(?, ?, ,? ,? ,?)";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, title);
 			pstatement.setString(2, interpreter);
@@ -26,7 +26,6 @@ public class AlbumDAO {
 			pstatement.setInt(4, userId);
 			InputStream inputStream = cover.getInputStream();
 			if (inputStream != null) {
-                
                 pstatement.setBlob(5, inputStream);
             } else {
                 pstatement.setNull(5, java.sql.Types.BLOB);
@@ -37,7 +36,6 @@ public class AlbumDAO {
 	
 	public Album findAlbumBySongId(int songId) throws SQLException {
 		Album album = null;
-
 		String query = "SELECT * FROM album A LEFT JOIN song S ON A.id=S.album_id where S.id = ?";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, songId);
