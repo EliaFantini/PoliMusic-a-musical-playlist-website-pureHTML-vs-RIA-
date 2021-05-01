@@ -8,7 +8,6 @@ public class Playlist {
 	private int id;
 	private int creator;
 	
-	
 	public int getId() {
 		return id;
 	}

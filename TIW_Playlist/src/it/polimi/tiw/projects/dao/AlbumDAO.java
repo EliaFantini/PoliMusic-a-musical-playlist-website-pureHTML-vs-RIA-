@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
 import it.polimi.tiw.projects.beans.Album;
@@ -34,7 +38,28 @@ public class AlbumDAO {
 		}
 	}
 	
-	public Album findAlbumBySongId(int songId) throws SQLException {
+	public List<Album> findAlbumByUser(int userID) throws SQLException, IOException{
+		List<Album> albumList = new ArrayList<>();
+		String query = "SELECT * FROM album where user_ID = ?";
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, userID);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while(result.next()) {
+					Album album = new Album();
+					album.setId(result.getInt("album_ID"));
+					album.setInterpreter(result.getString("interpreter"));
+					album.setPublicationYear(result.getInt("publication_year"));
+					album.setTitle(result.getString("album_title"));
+					InputStream cover = result.getBlob("image").getBinaryStream();
+					album.setCover(ImageIO.read(cover));
+					albumList.add(album);
+				}
+			}
+		}
+		return albumList;
+	}
+	
+	public Album findAlbumBySongId(int songId) throws SQLException, IOException {
 		Album album = null;
 		String query = "SELECT * FROM album A LEFT JOIN song S ON A.id=S.album_id where S.id = ?";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
@@ -42,12 +67,12 @@ public class AlbumDAO {
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (result.next()) {
 					album = new Album();
-					album.setId(result.getInt("id"));
+					album.setId(result.getInt("album_ID"));
 					album.setInterpreter(result.getString("interpreter"));
 					album.setPublicationYear(result.getInt("publication_year"));
-					album.setTitle(result.getString("title"));
-					Part cover= (Part) result.getBlob("cover");
-					album.setCover(cover);
+					album.setTitle(result.getString("album_title"));
+					InputStream cover = result.getBlob("image").getBinaryStream();
+					album.setCover(ImageIO.read(cover));
 				}
 			}
 		}

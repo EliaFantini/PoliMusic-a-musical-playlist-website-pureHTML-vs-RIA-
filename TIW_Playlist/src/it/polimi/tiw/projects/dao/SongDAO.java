@@ -23,7 +23,7 @@ public class SongDAO {
 	public List<Song> findSongsByUser(int userId) throws SQLException {
 		List<Song> userSongs = new ArrayList<Song>();
 
-		String query = "SELECT * from songs where owner_ID = ?";
+		String query = "SELECT * from song where owner_ID = ?";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, userId);
 			try (ResultSet result = pstatement.executeQuery();) {
@@ -31,7 +31,7 @@ public class SongDAO {
 					Song song = new Song();
 					song.setSongID(result.getInt("song_ID"));
 					song.setSongTitle(result.getString("song_title"));
-					song.setAlbumID(result.getInt("album_ID"));
+					song.setAlbumID(result.getInt("album"));
 					song.setGenre(result.getString("genre"));
 					Part file = (Part) result.getBlob("file");
 					song.setFile(file);
@@ -44,10 +44,10 @@ public class SongDAO {
 	}
 	
 	public void createNewSong(String title,int albumId,String genre, int userId, Part file) throws SQLException, IOException { // ..,file)
-		String query = "INSERT into album (song_title, album, genre, file, owner_ID) VALUES(?, ?, ?,? ,?)"; 
+		String query = "INSERT into song (song_title, album, genre, file, owner_ID) VALUES(?, ?, ?, ?, ?)"; 
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, title);
-			pstatement.setInt(2,albumId);
+			pstatement.setInt(2, albumId);
 			pstatement.setString(3, genre);
 			InputStream inputStream = file.getInputStream();
 			if (inputStream != null) {

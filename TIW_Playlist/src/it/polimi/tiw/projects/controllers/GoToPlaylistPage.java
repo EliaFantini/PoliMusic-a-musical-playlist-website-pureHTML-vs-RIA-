@@ -56,7 +56,14 @@ public class GoToPlaylistPage extends HttpServlet{
 			return;
 		}
 		
-		Integer playlist_ID = Integer.parseInt((String) request.getAttribute("playlist_ID"));
+		Integer playlist_ID = null;
+		try {
+			playlist_ID = Integer.parseInt(request.getParameter("playlistID"));
+		} catch (NumberFormatException | NullPointerException e) {
+			// only for debugging e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
+			return;
+		}
 		ContainmentDAO containmentDAO = new ContainmentDAO(connection);
 		List<List<Song>> playlistSongs = new ArrayList<List<Song>>();
 		try {
@@ -83,6 +90,7 @@ public class GoToPlaylistPage extends HttpServlet{
 		ctx.setVariable("allSongs", playlistSongs);
 		ctx.setVariable("currentSongs", playlistSongs.get(0));
 		ctx.setVariable("pageIndex", 0);
+		ctx.setVariable("lastPageIndex", playlistSongs.size() - 1);
 		ctx.setVariable("allUserSongs", allUserSongs);
 		ctx.setVariable("currentPlaylistID", playlist_ID);
 		templateEngine.process(path, ctx, response.getWriter());

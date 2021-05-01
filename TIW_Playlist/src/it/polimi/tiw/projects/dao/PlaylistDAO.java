@@ -20,7 +20,7 @@ public class PlaylistDAO {
 	public List<Playlist> findPlaylistByUser(int userId) throws SQLException {
 		List<Playlist> playlists = new ArrayList<Playlist>();
 
-		String query = "SELECT * from playlist where creator = ? ORDER BY date DESC";
+		String query = "SELECT * from playlist where creator = ? ORDER BY creation_date DESC";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, userId);
 			try (ResultSet result = pstatement.executeQuery();) {

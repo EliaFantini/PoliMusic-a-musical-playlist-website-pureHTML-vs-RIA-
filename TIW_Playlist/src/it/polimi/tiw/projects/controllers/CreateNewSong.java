@@ -3,21 +3,23 @@ package it.polimi.tiw.projects.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.dao.SongDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
 @WebServlet("/CreateNewSong")
+@MultipartConfig
 public class CreateNewSong extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection = null;
@@ -36,18 +38,38 @@ public class CreateNewSong extends HttpServlet {
 		String title = null;
 		Part file = null;
 		String genre = null;
-		int albumId = 0;
+		Integer albumId = 0;
+		String idValue;
+		Part idPart;
 
-		try {
-			albumId = Integer.parseInt(request.getParameter("album"));
-			title = StringEscapeUtils.escapeJava(request.getParameter("song_title"));
-			genre = StringEscapeUtils.escapeJava(request.getParameter("genre"));
-			file = request.getPart("file");
-			isBadRequest = title.isEmpty() || genre.isEmpty() || albumId<0 ||file==null ;
-		} catch (NumberFormatException| NullPointerException e) {
-			isBadRequest = true;
-			e.printStackTrace();
+		idPart = request.getPart("album");
+		try (Scanner scanner = new Scanner(idPart.getInputStream())) {
+		    idValue = scanner.nextLine();
+		    albumId = Integer.parseInt(idValue);
 		}
+		catch (IOException e) {
+			isBadRequest = true;
+		}
+		
+		idPart = request.getPart("song_title");
+		try (Scanner scanner = new Scanner(idPart.getInputStream())) {
+		    title = scanner.nextLine();
+		}
+		catch (IOException e) {
+			isBadRequest = true;
+		}
+		
+		idPart = request.getPart("genre");
+		try (Scanner scanner = new Scanner(idPart.getInputStream())) {
+		    genre = scanner.nextLine();
+		}
+		catch (IOException e) {
+			isBadRequest = true;
+		}
+	
+		file = request.getPart("file");
+		
+		isBadRequest = title.isEmpty() || genre.isEmpty() || albumId<0 ||file==null ;
 		if (isBadRequest) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect or missing parameters' values");
 			return;
@@ -57,8 +79,11 @@ public class CreateNewSong extends HttpServlet {
 		SongDAO songDAO = new SongDAO(connection);
 		try {
 			songDAO.createNewSong (title, albumId, genre , user.getId(), file);
-		} catch (SQLException | IOException e) {
+		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to create song");
+			return;
+		} catch (IOException i){
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "IO exception");
 			return;
 		}
 

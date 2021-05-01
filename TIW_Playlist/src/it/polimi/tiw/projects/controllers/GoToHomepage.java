@@ -19,8 +19,10 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.polimi.tiw.projects.beans.Album;
 import it.polimi.tiw.projects.beans.Playlist;
 import it.polimi.tiw.projects.beans.User;
+import it.polimi.tiw.projects.dao.AlbumDAO;
 import it.polimi.tiw.projects.dao.PlaylistDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
@@ -63,12 +65,21 @@ public class GoToHomepage extends HttpServlet{
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlists");
 			return;
 		}
+		AlbumDAO albumDAO = new AlbumDAO(connection);
+		List<Album> userAlbums = new ArrayList<>();
+		try {
+			userAlbums = albumDAO.findAlbumByUser(user.getId());
+		} catch (SQLException | IOException e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover albums");
+			return;
+		}
 
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/Homepage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("playlists", playlists);
+		ctx.setVariable("userAlbums", userAlbums);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

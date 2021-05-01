@@ -71,7 +71,7 @@ public class GoToPlayerPage extends HttpServlet{
 		if (song != null) {
 			try {
 				album = albumDAO.findAlbumBySongId(song.getSongID());
-			} catch (SQLException e) {
+			} catch (SQLException | IOException e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover album");
 			}
 		}

@@ -1,13 +1,12 @@
 package it.polimi.tiw.projects.beans;
-import javax.servlet.http.Part;
+import java.awt.Image;
 
 public class Album {
-	private int id;
+	private Integer id;
 	private String title;
 	private String interpreter;
-	private int publicationYear;
-	private Part cover;
-	
+	private Integer publicationYear;
+	private Image cover;
 	
 	public String getTitle() {
 		return title;
@@ -21,23 +20,24 @@ public class Album {
 	public void setInterpreter(String interpreter) {
 		this.interpreter = interpreter;
 	}
-	public int getPublicationYear() {
+	public Integer getPublicationYear() {
 		return publicationYear;
 	}
 	public void setPublicationYear(int publicationYear) {
 		this.publicationYear = publicationYear;
 	}
-	public Part getCover() {
-		return cover;
-	}
-	public void setCover(Part cover) {
-		this.cover = cover;
-	}
-	public int getId() {
+	
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public Image getCover() {
+		return cover;
+	}
+	public void setCover(Image cover) {
+		this.cover = cover;
 	}
 	
 }

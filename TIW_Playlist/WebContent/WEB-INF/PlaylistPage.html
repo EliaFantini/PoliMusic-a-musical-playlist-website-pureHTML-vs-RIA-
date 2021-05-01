@@ -9,7 +9,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Song</th>
+				<th>Songs</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,11 +22,11 @@
 		</tbody>
 	</table>
 	
-	<div th: if="${pageIndex} != ${LastPageIndex}">
+	<div th:if="${pageIndex} != ${lastPageIndex}">
 		<a href="/GetFollowingSongs">Get following songs</a>
 	</div>
 	
-	<div th: if="${pageIndex} != 0">
+	<div th:if="${pageIndex}!=0">
 		<a href="/GetPreviousSongs">Get previous songs</a>
 	</div>
 	

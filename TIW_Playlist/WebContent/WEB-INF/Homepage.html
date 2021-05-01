@@ -15,9 +15,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="p : ${userPlaylists}">
+			<tr th:each="p : ${playlists}">
 				<td>
-					<a th:href="@{/GoToPlaylistPage(playlist_ID=${p.id})}" th:text="${p.playlist_name}">
+					<a th:href="@{/PlaylistPage(playlistID=${p.id})}" th:text="${p.playlistName}">
 					</a>
 				</td>
 				<td th:text="${p.creationDate}"></td>
@@ -35,7 +35,7 @@
 	
 	<div>
 		<h2>Upload a new song</h2>
-		<form th:action="@{/CreateNewSong}" method="POST">
+		<form th:action="@{/CreateNewSong}" method="POST" enctype="multipart/form-data">
 			Song title: <input type="text" name="song_title" required /> <br>
 				File: <input type="file" name="file" required /> <br>
 				Genre: <select name="genre">
@@ -70,11 +70,11 @@
 	
 	<div>
 		<h2>Create a new album</h2>
-		<form th:action="@{/CreateNewAlbum}" method="POST">
+		<form th:action="@{/CreateNewAlbum}" method="POST" enctype="multipart/form-data">
 			Album title: <input type="text" name="album_title" required /><br>
 			Interpreter: <input type="text" name="interpreter" required /><br>
 			Publication year: <input type="number" name="year" required /><br>
-			Cover: <input type="file" name="cover" required /><br>
+			Cover: <input type="file" name="cover" accept="image/png, image/jpeg" required /><br>
 			<input type="submit" name="Create Album"><br>
 		</form>
 	</div>
