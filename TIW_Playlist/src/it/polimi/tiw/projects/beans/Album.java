@@ -1,12 +1,11 @@
 package it.polimi.tiw.projects.beans;
-import java.awt.Image;
 
 public class Album {
 	private Integer id;
 	private String title;
 	private String interpreter;
 	private Integer publicationYear;
-	private Image cover;
+	private String coverPath;
 	
 	public String getTitle() {
 		return title;
@@ -33,11 +32,11 @@ public class Album {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Image getCover() {
-		return cover;
+	public String getCoverPath() {
+		return coverPath;
 	}
-	public void setCover(Image cover) {
-		this.cover = cover;
+	public void setCoverPath(String coverPath) {
+		this.coverPath = coverPath;
 	}
 	
 }

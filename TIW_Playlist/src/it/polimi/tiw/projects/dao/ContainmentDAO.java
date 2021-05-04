@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.Part;
-
 import it.polimi.tiw.projects.beans.Song;
 
 public class ContainmentDAO {
@@ -23,8 +21,11 @@ public class ContainmentDAO {
 		List<Song> currentSongs = new ArrayList<Song>();
 		allSongs.add(currentSongs);
 
-		String query = "SELECT * from song where song_ID in "
-				+ "(SELECT song_ID from containment where playlist_ID = ?)";
+		String query = "SELECT * "
+					+ "FROM song "
+					+ "WHERE song_ID IN (SELECT song_ID "
+									+ "FROM containment "
+									+ "WHERE playlist_ID = ?)";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, playlist_ID);
 			try (ResultSet result = pstatement.executeQuery();) {
@@ -40,15 +41,16 @@ public class ContainmentDAO {
 					song.setSongTitle(result.getString("song_title"));
 					song.setAlbumID(result.getInt("album"));
 					song.setGenre(result.getString("genre"));
-					song.setFile((Part) result.getBlob("file"));
+					song.setFilePath(result.getString("file"));
 					currentSongs.add(song);
+					i++;
 				}
 			}
 		}
 		return allSongs;
 	}
 	
-	public void createNewContainment(int playlist_ID, int song_ID) throws SQLException {
+	public void createNewContainment(int song_ID, int playlist_ID) throws SQLException {
 		String query = "INSERT into containment (song_ID, playlist_ID) VALUES(?, ?)";
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setInt(1, song_ID);

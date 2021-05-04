@@ -1,14 +1,12 @@
 package it.polimi.tiw.projects.beans;
 
-import javax.servlet.http.Part;
-
 public class Song {
-	private int songID;
+	private Integer songID;
 	private String songTitle;
-	private int albumID;
+	private Integer albumID;
 	private String genre;
-	private Part file;
-	private int owner_ID;
+	private String filePath;
+	private Integer ownerID;
 	
 	public int getSongID() {
 		return songID;
@@ -35,18 +33,19 @@ public class Song {
 		this.genre = genre;
 	}
 	
-	public int getOwner_ID() {
-		return owner_ID;
+	public int getOwnerID() {
+		return ownerID;
 	}
-	public void setOwner_ID(int owner_ID) {
-		this.owner_ID = owner_ID;
+	public void setOwnerID(int ownerID) {
+		this.ownerID = ownerID;
 	}
-	public Part getFile() {
-		return file;
+	public String getFilePath() {
+		return filePath;
 	}
-	public void setFile(Part file) {
-		this.file = file;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
+	
 	
 	
 

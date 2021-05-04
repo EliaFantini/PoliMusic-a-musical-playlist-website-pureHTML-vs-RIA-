@@ -72,7 +72,7 @@ public class GoToPlaylistPage extends HttpServlet{
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlist songs");
 			return;
 		}
-		
+
 		User user = (User) session.getAttribute("user");
 		List<Song> allUserSongs = new ArrayList<Song>();
 		SongDAO songDAO = new SongDAO(connection);
@@ -90,9 +90,7 @@ public class GoToPlaylistPage extends HttpServlet{
 		ctx.setVariable("allSongs", playlistSongs);
 		ctx.setVariable("currentSongs", playlistSongs.get(0));
 		ctx.setVariable("pageIndex", 0);
-		ctx.setVariable("lastPageIndex", playlistSongs.size() - 1);
 		ctx.setVariable("allUserSongs", allUserSongs);
-		ctx.setVariable("currentPlaylistID", playlist_ID);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 	

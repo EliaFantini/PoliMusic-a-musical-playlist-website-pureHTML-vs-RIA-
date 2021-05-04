@@ -5,20 +5,20 @@
 <title>Player Page</title>
 </head>
 <body>
-	<h1 th:text="${song.title}">Song Title </h1>
+	<h1 th:text="${currentSong.songTitle}">Song Title </h1>
 	<div>
-		<p th:text=" ${'Interpreter: ' + album.interpreter}"></p>
-		<p th:text=" ${'Publication year: ' + album.interpreter}"></p>
-		<p th:text="${'Genre: ' + song.genre}"></p> 
-		<p th:text="${'Album: ' + album.title}"></p> 
-		<img  th:src="${album.cover}" alt="Cover">
+		Interpreter:  <p th:text="${currentAlbum.getInterpreter()}"></p>
+		Publication Year: <p th:text="${currentAlbum.publicationYear}"></p>
+		Genre: <p th:text="${currentSong.genre}"></p> 
+		Album: <p th:text="${currentAlbum.title}"></p> 
+		<img  th:src="${currentAlbum.coverPath}" alt="Cover">
 	</div>
 	<br>
 	<br>
 	<br>
 	<div>
 		<audio controls>
-         <source th:src = "${song.file}" type = "audio/mpeg">
+         <source th:src = "${currentSong.filePath}" type = "audio/mpeg">
       </audio>
 	</div>
 	

@@ -15,14 +15,14 @@
 		<tbody>
 			<tr th:each="s : ${currentSongs}">
 				<td>
-					<a th:href="@{/GoToPlayerPage(song_ID=${s.id})}" th:text="${s.songTitle}">
+					<a th:href="@{/GoToPlayerPage(song_ID=${s.songID})}" th:text="${s.songTitle}">
 					</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	
-	<div th:if="${pageIndex} != ${lastPageIndex}">
+	<div th:if="${pageIndex} != ${allSongs.size() - 1}">
 		<a href="/GetFollowingSongs">Get following songs</a>
 	</div>
 	
@@ -33,6 +33,7 @@
 	<div>
 		<h2>Add song to playlist</h2>
 		<form action="AddSongToPlaylist" method="POST">
+			<input type="hidden" th:value="${#request.getParameter('playlistID')}" name="playlist">
 			<select name = "songToAdd">
 				<option th:each="s : ${allUserSongs}" th:value="${s.songID}" th:text="${s.songTitle}"></option>
 			</select>

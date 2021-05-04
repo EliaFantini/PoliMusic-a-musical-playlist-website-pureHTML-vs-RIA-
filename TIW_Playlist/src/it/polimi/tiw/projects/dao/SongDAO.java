@@ -1,15 +1,12 @@
 package it.polimi.tiw.projects.dao;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.Part;
 
 import it.polimi.tiw.projects.beans.Song;
 
@@ -33,9 +30,8 @@ public class SongDAO {
 					song.setSongTitle(result.getString("song_title"));
 					song.setAlbumID(result.getInt("album"));
 					song.setGenre(result.getString("genre"));
-					Part file = (Part) result.getBlob("file");
-					song.setFile(file);
-					song.setOwner_ID(userId);
+					song.setFilePath(result.getString("file"));
+					song.setOwnerID(userId);
 					userSongs.add(song);
 				}
 			}
@@ -43,21 +39,36 @@ public class SongDAO {
 		return userSongs;
 	}
 	
-	public void createNewSong(String title,int albumId,String genre, int userId, Part file) throws SQLException, IOException { // ..,file)
+	public void createNewSong(String title,int albumId,String genre, int userId, String filePath) throws SQLException, IOException { // ..,file)
 		String query = "INSERT into song (song_title, album, genre, file, owner_ID) VALUES(?, ?, ?, ?, ?)"; 
 		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
 			pstatement.setString(1, title);
 			pstatement.setInt(2, albumId);
 			pstatement.setString(3, genre);
-			InputStream inputStream = file.getInputStream();
-			if (inputStream != null) {
-                pstatement.setBlob(4, inputStream);
-            } else {
-                pstatement.setNull(4, java.sql.Types.BLOB);
-            }
+			pstatement.setString(4, filePath);
 			pstatement.setInt(5, userId);
 			pstatement.executeUpdate();
 		}
 	}
 	
+	public Song findSongById(int songID) throws SQLException{
+		String query = "SELECT * from song where song_ID = ?";
+		Song song = null;
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, songID);
+			try (ResultSet result = pstatement.executeQuery();) {
+				if (result.next()) {
+					song = new Song();
+					song.setSongID(songID);
+					song.setSongTitle(result.getString("song_title"));
+					song.setAlbumID(result.getInt("album"));
+					song.setGenre(result.getString("genre"));
+					song.setFilePath(result.getString("file"));
+					song.setOwnerID(result.getInt("owner_ID"));
+				}
+			}
+		}
+		return song;
+		
+	}
 }

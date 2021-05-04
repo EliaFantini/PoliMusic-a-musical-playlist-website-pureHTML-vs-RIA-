@@ -40,16 +40,16 @@ public class AddSongToPlaylist extends HttpServlet{
 		}
 		
 		Integer songID = Integer.parseInt(request.getParameter("songToAdd"));
-		
+		Integer playlist_ID = Integer.parseInt(request.getParameter("playlist"));
+
 		ServletContext servletContext = getServletContext();
 		String ctxpath = servletContext.getContextPath();
-		String path = ctxpath + "/PlaylistPage.html";
-		Integer playlist_ID = (Integer) servletContext.getAttribute("currentPlaylistID");
+		String path = ctxpath + "/WEB-INF/PlaylistPage.html";
 		ContainmentDAO containmentDAO = new ContainmentDAO(connection);
 		try {
 			containmentDAO.createNewContainment(songID, playlist_ID);
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlists");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to add song");
 			return;
 		}
 		response.sendRedirect(path);		
