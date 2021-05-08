@@ -19,20 +19,18 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.tiw.projects.beans.Album;
-import it.polimi.tiw.projects.beans.Playlist;
-import it.polimi.tiw.projects.beans.User;
-import it.polimi.tiw.projects.dao.AlbumDAO;
-import it.polimi.tiw.projects.dao.PlaylistDAO;
+import it.polimi.tiw.projects.beans.Song;
+import it.polimi.tiw.projects.dao.ContainmentDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
-@WebServlet("/Homepage")
-public class GoToHomepage extends HttpServlet{
+@WebServlet("/GetFollowingSongs")
+public class GetFollowingSongs extends HttpServlet{
+	
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	private Connection connection = null;
-
-	public GoToHomepage() {
+	
+	public GetFollowingSongs() {
 		super();
 	}
 
@@ -55,39 +53,41 @@ public class GoToHomepage extends HttpServlet{
 			response.sendRedirect(loginPath);
 			return;
 		}
-		// Create list of the user playlists
-		User user = (User) session.getAttribute("user");
-		PlaylistDAO playlistDAO = new PlaylistDAO(connection);
-		List<Playlist> playlists = new ArrayList<Playlist>();
+		// Redirect to the playlistPage
+		Integer pageIndex;
+		Integer playlistID;
 		try {
-			playlists = playlistDAO.findPlaylistByUser(user.getId());
+			pageIndex = Integer.parseInt(request.getParameter("pageIndex")) + 1;
+			playlistID = Integer.parseInt(request.getParameter("playlistID"));
+		} catch (NumberFormatException | NullPointerException e) {
+			// only for debugging e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
+			return;
+		}
+		
+		ContainmentDAO containmentDAO = new ContainmentDAO(connection);
+		List<List<Song>> playlistSongs = new ArrayList<List<Song>>();
+		try {
+			playlistSongs = containmentDAO.findSongsByPlaylist(playlistID);
 		} catch (SQLException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlists");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlist songs");
 			return;
 		}
-		AlbumDAO albumDAO = new AlbumDAO(connection);
-		List<Album> userAlbums = new ArrayList<>();
-		try {
-			userAlbums = albumDAO.findAlbumByUser(user.getId());
-		} catch (SQLException | IOException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover albums");
-			return;
-		}
-
-		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/Homepage.html";
+		
+		String path = "/WEB-INF/PlaylistPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		ctx.setVariable("playlists", playlists);
-		ctx.setVariable("userAlbums", userAlbums);
+		ctx.setVariable("currentSongs", playlistSongs.get(pageIndex));
+		ctx.setVariable("pageIndex", pageIndex);
+		ctx.setVariable("lastIndex", playlistSongs.size()-1);
 		templateEngine.process(path, ctx, response.getWriter());
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
 	public void destroy() {
 		try {
 			ConnectionHandler.closeConnection(connection);
@@ -95,5 +95,5 @@ public class GoToHomepage extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
-	
+
 }

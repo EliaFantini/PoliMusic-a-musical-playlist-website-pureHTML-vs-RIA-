@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Playlist page</title>
+</head>
+<body>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Songs</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="s : ${currentSongs}">
+				<td>
+					<a th:href="@{/GoToPlayerPage(song_ID=${s.songID})}" th:text="${s.songTitle}">
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div th:if="${pageIndex!=lastIndex}">
+		<a th:href="@{/GetFollowingSongs(pageIndex=${pageIndex},playlistID=${#request.getParameter('playlistID')})}">Get following songs</a>
+	</div>
+	
+	<div th:if="${pageIndex}!=0">
+		<a th:href="@{/GetPreviousSongs(pageIndex=${pageIndex},playlistID=${#request.getParameter('playlistID')})}">Get previous songs</a>
+	</div>
+	
+	<div>
+		<h2>Add song to playlist</h2>
+		<form action="AddSongToPlaylist" method="POST">
+			<input type="hidden" th:value="${#request.getParameter('playlistID')}" name="playlist">
+			<select name = "songToAdd">
+				<option th:each="s : ${allUserSongs}" th:value="${s.songID}" th:text="${s.songTitle}"></option>
+			</select>
+			<input type="submit" name="Add Song">
+		</form>
+	</div>
+	
+
+</body>
+</html>
