@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../CSS/MainStyle.css">
 <title>Login page</title>
 </head>
 <body>
@@ -16,15 +17,14 @@
 		</thead>
 		<tbody>
 			<tr th:each="p : ${playlists}">
-				<td>
-					<a th:href="@{/PlaylistPage(playlistID=${p.id})}" th:text="${p.playlistName}">
-					</a>
-				</td>
+				<td><a th:href="@{/PlaylistPage(playlistID=${p.id})}"
+					th:text="${p.playlistName}"> </a></td>
 				<td th:text="${p.creationDate}"></td>
 			</tr>
 		</tbody>
 	</table>
-	
+	<p th:text=" ${errorMsgPlaylists}"></p>
+
 	<div>
 		<h2>Create a new playlist</h2>
 		<form th:action="@{/CreateNewPlaylist}" method="POST">
@@ -32,13 +32,15 @@
 			<input type="submit" name="Create Playlist"><br>
 		</form>
 	</div>
-	
+
 	<div>
 		<h2>Upload a new song</h2>
-		<form th:action="@{/CreateNewSong}" method="POST" enctype="multipart/form-data">
-			Song title: <input type="text" name="song_title" required /> <br>
-				File: <input type="file" name="file" required accept="audio/mpeg" /> <br>
-				Genre: <select name="genre">
+		<div th:if="${not userAlbums.isEmpty()}">
+			<form th:action="@{/CreateNewSong}" method="POST"
+				enctype="multipart/form-data">
+				Song title: <input type="text" name="song_title" required /> <br>
+				File: <input type="file" name="file" required accept="audio/mpeg" />
+				<br> Genre: <select name="genre">
 					<option value="Pop">Pop</option>
 					<option value="Rap">Rap</option>
 					<option value="Jazz">Jazz</option>
@@ -60,21 +62,25 @@
 					<option value="Punk">Punk</option>
 					<option value="Flamenco">Flamenco</option>
 					<option value="Country">Country</option>
-				</select> <br>
-				Album:<select name="album">
-					<option th:each="a : ${userAlbums}" th:value="${a.id}" th:text="${a.title}"></option>
-				</select> <br>
-				<input type="submit" name="Create Song"><br>
-		</form>
+				</select> <br> Album:<select name="album">
+					<option th:each="a : ${userAlbums}" th:value="${a.id}"
+						th:text="${a.title}"></option>
+				</select> <br> <input type="submit" name="Create Song"><br>
+			</form>
+		</div>
+		<p th:text=" ${errorMsgUploadSongForm}"></p>
+
+
 	</div>
-	
+
 	<div>
 		<h2>Create a new album</h2>
-		<form th:action="@{/CreateNewAlbum}" method="POST" enctype="multipart/form-data">
+		<form th:action="@{/CreateNewAlbum}" method="POST"
+			enctype="multipart/form-data">
 			Album title: <input type="text" name="album_title" required /><br>
 			Interpreter: <input type="text" name="interpreter" required /><br>
 			Publication year: <input type="number" name="year" required /><br>
-			Cover: <input type="file" name="cover" accept="image/png, image/jpeg" required /><br>
+			Cover: <input type="file" name="cover" accept="image/png, image/jpeg" required /><br> 
 			<input type="submit" name="Create Album"><br>
 		</form>
 	</div>

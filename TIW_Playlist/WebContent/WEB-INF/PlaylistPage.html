@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="../CSS/MainStyle.css">
 <title>Playlist page</title>
 </head>
 <body>
@@ -21,6 +22,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<p th:text=" ${errorMsgPlaylistSongs}"></p>
 	
 	<div th:if="${pageIndex!=lastIndex}">
 		<a th:href="@{/GetFollowingSongs(pageIndex=${pageIndex},playlistID=${#request.getParameter('playlistID')})}">Get following songs</a>
@@ -32,13 +34,17 @@
 	
 	<div>
 		<h2>Add song to playlist</h2>
-		<form action="AddSongToPlaylist" method="POST">
-			<input type="hidden" th:value="${#request.getParameter('playlistID')}" name="playlist">
-			<select name = "songToAdd">
-				<option th:each="s : ${allUserSongs}" th:value="${s.songID}" th:text="${s.songTitle}"></option>
-			</select>
-			<input type="submit" name="Add Song">
-		</form>
+		<div th:if="${not allUserSongs.isEmpty()}">
+			<form action="AddSongToPlaylist" method="POST">
+				<input type="hidden"
+					th:value="${#request.getParameter('playlistID')}" name="playlist">
+				<select name="songToAdd">
+					<option th:each="s : ${allUserSongs}" th:value="${s.songID}"
+						th:text="${s.songTitle}"></option>
+				</select> <input type="submit" name="Add Song">
+			</form>
+		</div>
+		<p th:text=" ${errorMsgNoMoreSongsToAdd}"></p>
 	</div>
 	
 
