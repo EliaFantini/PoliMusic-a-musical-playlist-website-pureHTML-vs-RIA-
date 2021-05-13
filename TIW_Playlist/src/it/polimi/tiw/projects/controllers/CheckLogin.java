@@ -44,18 +44,19 @@ public class CheckLogin extends HttpServlet{
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String path;
 		String username = null;
 		String password = null;
-		try {
 			username = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 			if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-				throw new Exception("Missing credential value");
+				ServletContext servletContext = getServletContext();
+				final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+				ctx.setVariable("errorMsgLogin", "Missing parameters, retry");
+				path = "/index.html";
+				templateEngine.process(path, ctx, response.getWriter());
 			}
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
-			return;
-		}
+		
 
 		// query database to authenticate for user
 		UserDAO userDao = new UserDAO(connection);
@@ -63,6 +64,7 @@ public class CheckLogin extends HttpServlet{
 		try {
 			user = userDao.checkCredentials(username, password);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
 			return;
 		}
@@ -70,11 +72,11 @@ public class CheckLogin extends HttpServlet{
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
 
-		String path;
+		
 		if (user == null) {
 			ServletContext servletContext = getServletContext();
 			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("errorMsg", "Incorrect username or password");
+			ctx.setVariable("errorMsgLogin", "Incorrect username or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
 		} else {

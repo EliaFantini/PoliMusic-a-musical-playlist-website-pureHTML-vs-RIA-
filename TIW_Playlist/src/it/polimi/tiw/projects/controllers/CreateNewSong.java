@@ -22,7 +22,9 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 
+import it.polimi.tiw.projects.beans.Album;
 import it.polimi.tiw.projects.beans.User;
+import it.polimi.tiw.projects.dao.AlbumDAO;
 import it.polimi.tiw.projects.dao.SongDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
@@ -54,6 +56,7 @@ public class CreateNewSong extends HttpServlet {
 		String filePath = null;
 		String genre = null;
 		Integer albumId = null;
+		boolean validAlbum=false;
 
 		try {
 			title = StringEscapeUtils.escapeJava(fieldToValue.get("song_title"));
@@ -71,13 +74,31 @@ public class CreateNewSong extends HttpServlet {
 		}
 
 		User user = (User) session.getAttribute("user");
+		AlbumDAO albumDAO=new AlbumDAO(connection);
+		try {
+			List<Album> userAlbums= albumDAO.findAlbumByUser(user.getId());
+			for(Album a: userAlbums) {
+				if(a.getId()==albumId) {
+					validAlbum=true;
+				}
+			}
+		} catch (SQLException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if(!validAlbum) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect or missing parameters' values");
+			return;
+		}
 		SongDAO songDAO = new SongDAO(connection);
 		try {
 			songDAO.createNewSong (title, albumId, genre , user.getId(), filePath);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Impossible to create song");
 			return;
 		} catch (IOException i){
+			i.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "IO exception");
 			return;
 		}
@@ -85,12 +106,14 @@ public class CreateNewSong extends HttpServlet {
 		String ctxpath = getServletContext().getContextPath();
 		String path = ctxpath + "/Homepage";
 		response.sendRedirect(path);
+		
 	}
 	
 	private Map<String, String> handleRequest(HttpServletRequest request) throws Exception{
 		HashMap<String, String> fieldToValue = new HashMap<>();
+		int userID = ((User) request.getSession().getAttribute("user")).getId();
 		File file;
-		String songPath = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator;
+		String songPath = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator + userID + File.separator;
 		File uploadDir = new File(songPath);
         if(!uploadDir.exists()) {
             uploadDir.mkdirs();

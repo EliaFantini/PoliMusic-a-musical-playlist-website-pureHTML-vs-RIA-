@@ -20,9 +20,11 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import it.polimi.tiw.projects.beans.Playlist;
 import it.polimi.tiw.projects.beans.Song;
 import it.polimi.tiw.projects.beans.User;
 import it.polimi.tiw.projects.dao.ContainmentDAO;
+import it.polimi.tiw.projects.dao.PlaylistDAO;
 import it.polimi.tiw.projects.dao.SongDAO;
 import it.polimi.tiw.projects.utils.ConnectionHandler;
 
@@ -48,20 +50,39 @@ public class GoToPlaylistPage extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// If the user is not logged in, redirects to login page
-		String loginPath = getServletContext().getContextPath() + "/index.html";
+
+
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginPath);
-			return;
-		}
 		
 		Integer playlist_ID = null;
+		boolean validPlaylist=false;
 		try {
 			playlist_ID = Integer.parseInt(request.getParameter("playlistID"));
 		} catch (NumberFormatException | NullPointerException e) {
 			// only for debugging e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect playlist ID value");
+			return;
+		}
+		User user = (User) session.getAttribute("user");
+		PlaylistDAO playlistDAO= new PlaylistDAO(connection);
+		List<Playlist> playlists;
+		try {
+			playlists = playlistDAO.findPlaylistByUser(user.getId());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Incorrect playlist ID value");
+			return;
+		}
+		if(playlists!=null) {
+			for(Playlist p: playlists) {
+				if(p.getId()==playlist_ID) {
+					validPlaylist=true;
+				}
+			}
+		}
+		
+		if(!validPlaylist) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect playlist ID value");
 			return;
 		}
 		ContainmentDAO containmentDAO = new ContainmentDAO(connection);
@@ -73,24 +94,13 @@ public class GoToPlaylistPage extends HttpServlet{
 			return;
 		}
 
-		User user = (User) session.getAttribute("user");
 		List<Song> allUserSongs = new ArrayList<Song>();
 		SongDAO songDAO = new SongDAO(connection);
 		try {
-			allUserSongs = songDAO.findSongsByUser(user.getId());
+			allUserSongs = songDAO.findSongsByUserNotInPLaylist(user.getId(),playlist_ID);
 		} catch (SQLException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover user songs");
 			return;
-		}
-		for (List<Song> l: playlistSongs) {
-			for(Song s : l) {
-				for (Song u: allUserSongs) {
-					if (s.getSongID() == u.getSongID()) {
-						allUserSongs.remove(u);
-						break;
-					}
-				}
-			}
 		}
 	
 		// Redirect to the playlist page
@@ -98,6 +108,13 @@ public class GoToPlaylistPage extends HttpServlet{
 		String path = "/WEB-INF/PlaylistPage.html";
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+		if(playlistSongs.get(0).isEmpty()) {
+			ctx.setVariable("errorMsgPlaylistSongs", "No songs added yet");
+		}
+		
+		if(allUserSongs.isEmpty()) {
+			ctx.setVariable("errorMsgNoMoreSongsToAdd", "No more songs to be added");
+		}
 		ctx.setVariable("lastIndex", playlistSongs.size()-1);
 		ctx.setVariable("currentSongs", playlistSongs.get(0));
 		ctx.setVariable("pageIndex", 0);

@@ -17,7 +17,30 @@ public class SongDAO {
 		this.connection = connection;
 	}
 	
-	public List<Song> findSongsByUser(int userId) throws SQLException {
+	public List<Song> findSongsByUserNotInPLaylist(int userId, int playlistID) throws SQLException {
+		List<Song> userSongs = new ArrayList<Song>();
+
+		String query = "SELECT * from song where owner_ID = ? AND song_ID NOT IN ( SELECT song_ID from containment where playlist_ID = ? )";
+		try (PreparedStatement pstatement = connection.prepareStatement(query);) {
+			pstatement.setInt(1, userId);
+			pstatement.setInt(2, playlistID);
+			try (ResultSet result = pstatement.executeQuery();) {
+				while (result.next()) {
+					Song song = new Song();
+					song.setSongID(result.getInt("song_ID"));
+					song.setSongTitle(result.getString("song_title"));
+					song.setAlbumID(result.getInt("album"));
+					song.setGenre(result.getString("genre"));
+					song.setFilePath(result.getString("file"));
+					song.setOwnerID(userId);
+					userSongs.add(song);
+				}
+			}
+		}
+		return userSongs;
+	}
+	
+	public List<Song> findSongsByUserID(int userId) throws SQLException {
 		List<Song> userSongs = new ArrayList<Song>();
 
 		String query = "SELECT * from song where owner_ID = ?";
@@ -71,4 +94,6 @@ public class SongDAO {
 		return song;
 		
 	}
+	
+	
 }

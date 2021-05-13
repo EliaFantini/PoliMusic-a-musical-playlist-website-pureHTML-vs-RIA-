@@ -48,20 +48,15 @@ public class GoToHomepage extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// If the user is not logged in, redirects to login page
-		String loginPath = getServletContext().getContextPath() + "/index.html";
+		
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginPath);
-			return;
-		}
-		// Create list of the user playlists
 		User user = (User) session.getAttribute("user");
 		PlaylistDAO playlistDAO = new PlaylistDAO(connection);
 		List<Playlist> playlists = new ArrayList<Playlist>();
 		try {
 			playlists = playlistDAO.findPlaylistByUser(user.getId());
 		} catch (SQLException e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover playlists");
 			return;
 		}
@@ -70,6 +65,7 @@ public class GoToHomepage extends HttpServlet{
 		try {
 			userAlbums = albumDAO.findAlbumByUser(user.getId());
 		} catch (SQLException | IOException e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to recover albums");
 			return;
 		}
@@ -79,7 +75,13 @@ public class GoToHomepage extends HttpServlet{
 		ServletContext servletContext = getServletContext();
 		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 		ctx.setVariable("playlists", playlists);
+		if(playlists.isEmpty()) {
+			ctx.setVariable("errorMsgPlaylists", "No playlist created yet");
+		}
 		ctx.setVariable("userAlbums", userAlbums);
+		if(userAlbums.isEmpty()) {
+			ctx.setVariable("errorMsgUploadSongForm", "Create an album first");
+		}
 		templateEngine.process(path, ctx, response.getWriter());
 	}
 

@@ -56,7 +56,6 @@ public class AlbumDAO {
 			pstatement.setInt(1, songId);
 			try (ResultSet result = pstatement.executeQuery();) {
 				if (result.next()) {
-					System.out.println("Hello World");
 					album = new Album();
 					album.setId(result.getInt("album_ID"));
 					album.setInterpreter(result.getString("interpreter"));

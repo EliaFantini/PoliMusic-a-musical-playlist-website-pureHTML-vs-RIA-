@@ -41,7 +41,7 @@ public class CreateNewPlaylist extends HttpServlet {
 		String playlistName = null;
 		try {
 			playlistName = StringEscapeUtils.escapeJava(request.getParameter("playlist_name"));			
-			isBadRequest =  playlistName.isEmpty();
+			isBadRequest =  playlistName==null||playlistName.isEmpty();
 		} catch ( NullPointerException e) {
 			isBadRequest = true;
 			e.printStackTrace();

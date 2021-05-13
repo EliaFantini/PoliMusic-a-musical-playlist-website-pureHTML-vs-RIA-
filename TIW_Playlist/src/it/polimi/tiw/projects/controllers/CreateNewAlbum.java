@@ -64,7 +64,7 @@ public class CreateNewAlbum extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect or missing parameters' values");
 			return;
 		}
-		if (publicationYear == null || title.isEmpty() || interpreter.isEmpty() || coverPath.isEmpty()) {
+		if (publicationYear == null || title==null|| interpreter==null|| coverPath==null|| title.isEmpty() || interpreter.isEmpty() || coverPath.isEmpty()) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"BadRequest: " + publicationYear + " " + title + " " + interpreter + " " + coverPath);
 			return;
@@ -86,8 +86,9 @@ public class CreateNewAlbum extends HttpServlet {
 	
 	private Map<String, String> handleRequest (HttpServletRequest request) throws Exception{
 		HashMap<String, String> fieldToValue = new HashMap<>();
+		int userID = ((User) request.getSession().getAttribute("user")).getId();
 		File image;
-		String imagePath = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator;
+		String imagePath = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator + userID + File.separator;
 		File uploadDir = new File(imagePath);
         if(!uploadDir.exists()) {
             uploadDir.mkdirs();
