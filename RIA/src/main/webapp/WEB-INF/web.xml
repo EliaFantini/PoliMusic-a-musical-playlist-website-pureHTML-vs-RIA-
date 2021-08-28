@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>TIW-MusicalPlaylist</display-name>
+  <context-param>
+    <param-name>dbUrl</param-name>
+    <param-value>jdbc:mysql://127.0.0.1:3306/TIW_DB?serverTimezone=UTC</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbUser</param-name>
+    <param-value>root</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>DB_Password</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbDriver</param-name>
+    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+<context-param>
+    <param-name>appPath</param-name>
+    <param-value>C:/Users/eliaf/eclipse-workspace/</param-value>
+  </context-param>
+ <filter> 
+      <filter-name>UserLoggedFilter</filter-name>
+      <filter-class>it.polimi.tiw.projects.filters.UserLoggedFilter</filter-class> 
+ </filter> 
+ <filter-mapping> 
+    <filter-name>UserLoggedFilter</filter-name> 
+    <url-pattern>/AddSongToPlaylist</url-pattern> 
+    <url-pattern>/CreateNewAlbum</url-pattern> 
+    <url-pattern>/CreateNewPlaylist</url-pattern> 
+    <url-pattern>/CreateNewSong</url-pattern>
+	<url-pattern>/GetPlaylistSongs</url-pattern> 
+	<url-pattern>/GetSongsToAdd</url-pattern> 
+    <url-pattern>/GetUserAlbums</url-pattern> 
+	<url-pattern>/GetUserPlaylists</url-pattern>	
+	<url-pattern>/ReorderPlaylistSongs</url-pattern>	
+ </filter-mapping> 
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>

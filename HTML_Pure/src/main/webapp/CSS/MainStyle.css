@@ -1,0 +1,192 @@
+@charset "ISO-8859-1";
+
+html{
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
+}
+
+body,html{
+	font-family: sans-serif;
+	color:#d6d6d6;
+	font-weight: 100;
+	margin : 0;
+    width: 100vw;
+    text-align:center;
+    min-height: 100%;
+}
+
+table {
+	width: 800px;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th, td {
+	text-align: left;
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+	transition:0.5s;
+}
+
+td{
+ text-align: center;
+}
+
+thead>tr {
+		background-color: #6746b1;	
+}
+tbody>tr:hover{
+	background-color: rgba(255,255,255,0.3);
+    transition:0.5s;
+}
+
+.songs_table>tbody>tr:hover{
+	background-color: rgba(255,255,255,0.1);
+    transition:0.5s;
+}
+
+form {
+  color:gray;
+  margin:  auto;
+  text-align: center;
+  width: 350px;
+  border-radius: 20px;
+  padding:40px;
+  box-sizing: border-box;
+  background: #2a2929;
+  box-shadow: 14px 14px 20px  #0e0e0e, -14px -14px 20px #5656567f;
+}
+
+div{
+	display:flex;
+	align-items: center;
+	text-align: center;
+    justify-content: center;
+    margin: 40px;
+}
+
+.playlists_table{
+	flex-direction:column;
+}
+
+.songs_table>tbody>tr>td:hover{
+	background-color: rgba(255,255,255,0.3);
+    transition:0.5s;
+}
+
+h1{
+	color:coral;
+	padding:30px;
+	background-color:#1a1a1a;
+	text-align:left;
+}
+
+h2{
+	color:#e5e5e5;
+	padding-bottom:20px;
+	font-size: 20px; 
+}
+
+a {
+  color: white; 
+  text-decoration: none;
+}
+a:hover{
+	color:#6746b1;
+}
+
+input,select,label{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight:bold;
+  color:gray;	
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  box-sizing: border-box;  
+  background: #414141;
+  padding-top: 8px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 30px;
+  box-shadow: inset 6px 6px 6px #0e0e0e, inset -6px -6px 6px #5656567f;
+  transition: 0.5s;
+}
+
+input::placeholder {
+  color: gray;
+}
+
+
+input[type=submit], input[type=file] {
+  margin-top: 40px;
+  background: coral;
+  color: white;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 6px 6px 6px #0e0e0e, -6px -6px 6px #5656567f;
+}
+input[type=file]{
+	background: #666261;
+	margin-top: 20px;
+}
+
+label {
+  height: 40px;
+  width:170px;
+  padding-left: 0px;
+  padding-top: 10px;
+  background: linear-gradient(45deg, coral, #736fd8);
+  box-shadow:  6px 6px 6px #0e0e0e,  -6px -6px 6px #5656567f;
+  color: white;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+label>a:hover{
+	color:white;
+}
+
+label:hover,input[type=submit]:hover,input[type=file]:hover {
+    box-shadow: 3px 3px 3px #0e0e0e,  -3px -3px 3px #5656567f;
+}
+
+form>label{
+	margin-left:20%;
+}
+
+input:hover, select:hover {
+  box-shadow: inset 3px 3px 3px #0e0e0e, inset -3px -3px 3px #5656567f;
+}
+
+img {
+  width: 130px;
+  height : auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=file] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+
+select:invalid{
+	color: coral;
+}

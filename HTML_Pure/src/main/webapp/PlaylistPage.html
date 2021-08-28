@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="CSS/MainStyle.css">
+<title>Playlist page</title>
+</head>
+<body>
+	<h1>PoliMusic</h1>
+	<div>
+		<table class="songs_table">
+			<thead>
+				<tr>
+					<th>Songs</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td th:each="s : ${currentSongs}">
+							<a th:href="@{/GoToPlayerPage(song_ID=${s.songId})}" th:text="${s.songTitle}"></a>
+							<br><br>
+							<img th:src="${s.album.imagePath}" alt="Cover">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<p th:text=" ${errorMsgPlaylistSongs}"></p>
+	<div>
+		<div th:if="${pageIndex}>0">
+			<label>
+				<a th:href="@{/PlaylistPage(playlistID=${#request.getParameter('playlistID')}, index=${pageIndex}-1)}">Get previous songs</a>
+			</label>
+			
+		</div>
+		<div th:if="${pageIndex<lastIndex}">
+			<label>
+				<a th:href="@{/PlaylistPage(playlistID=${#request.getParameter('playlistID')}, index=${pageIndex}+1)}">Get following songs</a>
+			</label>
+		</div>
+	</div>
+	<div th:if="${not allUserSongs.isEmpty()}">
+		<form action="AddSongToPlaylist" method="POST">
+			<h2>Add song to playlist</h2>
+			<input type="hidden"
+				th:value="${#request.getParameter('playlistID')}" name="playlist">
+			<select name="songToAdd" required>
+				<option value="" disabled selected>Song name</option>
+				<option th:each="s : ${allUserSongs}" th:value="${s.songId}"
+					th:text="${s.songTitle}"></option>
+			</select> <input type="submit" name="Add Song">
+		</form>
+	</div>
+	<div>
+		<p th:text=" ${errorMsgNoMoreSongsToAdd}"></p>
+	</div>
+	<br>
+	<br>
+	
+	
+
+</body>
+</html>

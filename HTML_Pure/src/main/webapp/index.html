@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+<link rel="stylesheet" type="text/css" href="CSS/MainStyle.css" >
+</head>
+<body>
+	<h1>PoliMusic</h1>
+	<form action="CheckLogin" method="POST">
+		<input type="text" name="username" placeholder="Username" required> 
+		<input type="password" name="password" placeholder="Password" required>
+		<input type="submit" value="login">
+		<p th:text=" ${errorMsgLogin}"></p>
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="CSS/MainStyle.css">
+<title>Player Page</title>
+</head>
+<body>
+	<h1>PoliMusic </h1>
+	<div>
+		<table>
+					<thead>
+						<tr>
+						<th th:text="${currentSong.songTitle}">Song Title</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Interpreter:</td>
+							<td th:text="${currentAlbum.interpreter}"></td>
+						</tr>
+						<tr>
+							<td>Publication Year:</td>
+							<td th:text="${currentAlbum.publicationYear}"></td>
+						</tr>
+						<tr>
+							<td>Genre:</td>
+							<td th:text="${currentSong.genre}"></td>
+						</tr>
+						<tr>
+							<td>Album:</td>
+							<td th:text="${currentAlbum.albumTitle}"></td>
+						</tr>
+					</tbody>
+				</table>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div>
+		<audio controls>
+         <source th:src = "${currentSong.filePath}" type = "audio/mpeg">
+      </audio>
+	</div>
+	
+</body>
+</html>

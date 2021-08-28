@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="CSS/MainStyle.css">
+<title>Login page</title>
+</head>
+<body>
+	<h1>PoliMusic</h1>
+	<div>
+		<div class="playlists_table">
+			<table>
+				<thead>
+					<tr>
+						<th>Playlist</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="p : ${playlists}">
+						<td><a th:href="@{/PlaylistPage(playlistID=${p.playlistId}, index=0)}"
+							th:text="${p.playlistName}"> </a></td>
+						<td th:text="${p.creationDate}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<p th:text=" ${errorMsgPlaylists}"></p>
+		</div>
+		<div>
+			<form th:action="@{/CreateNewPlaylist}" method="POST">
+				<h2>Create a new playlist</h2>
+				<input type="text" name="playlist_name" placeholder="Playlist name" required />
+				<input type="submit" name="Create Playlist">
+			</form>
+		</div>
+	</div>
+	<div>
+			<div th:if="${not userAlbums.isEmpty()}">
+				<form th:action="@{/CreateNewSong}" method="POST"
+					enctype="multipart/form-data">
+					<h2>Upload a new song</h2>
+					<input type="text" name="song_title" placeholder="Song title" required /> 
+					  <select name="genre" required>
+						<option value="" disabled selected>Genre</option>
+						<option value="Alternative">Alternative</option>
+						<option value="Blues">Blues</option>
+						<option value="Classic">Classic</option>
+						<option value="Country">Country</option>
+						<option value="Flamenco">Flamenco</option>
+						<option value="Folk">Folk</option>
+						<option value="Funk">Funk</option>
+						<option value="HipHop">Hip Hop</option>
+						<option value="House">House</option>
+						<option value="Indie">Indie</option>
+						<option value="Jazz">Jazz</option>
+						<option value="K-Pop">K-Pop</option>
+						<option value="Latino">Latino</option>
+						<option value="Low-Fi">Low-Fi</option>
+						<option value="Metal">Metal</option>
+						<option value="Pop">Pop</option>
+						<option value="Punk">Punk</option>
+						<option value="Rap">Rap</option>
+						<option value="Rock">Rock</option>
+						<option value="Soul">Soul</option>
+						<option value="Techno">Techno</option>
+					</select> <select name="album" required>
+						<option value="" disabled selected>Album</option>
+						<option th:each="a : ${userAlbums}" th:value="${a.albumId}"
+							th:text="${a.albumTitle}"></option>
+					</select> 
+					<input type="file" name="file" id="selectSongFile" required accept="audio/mpeg" />
+					<label for="selectSongFile">Select song file</label>
+					<input type="submit" name="Create Song">
+				</form>
+			</div>
+			<p th:text=" ${errorMsgUploadSongForm}"></p>
+	
+		<div>
+			
+			<form th:action="@{/CreateNewAlbum}" method="POST"
+				enctype="multipart/form-data">
+				<h2>Create a new album</h2>
+				<input type="text" name="album_title" placeholder="Album title" required />
+				<input type="text" name="interpreter" placeholder="Interpreter" required />
+				<input type="number" name="year" placeholder="Publication year" required />
+				<input type="file" name="cover" accept="image/png, image/jpeg" id="selectCoverImage" required />
+				<label for="selectCoverImage">Select cover image</label>
+				<input type="submit" name="Create Album">
+			</form>
+		</div>
+	</div>
+</body>
+</html>

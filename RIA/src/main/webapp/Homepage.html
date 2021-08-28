@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="CSS/MainStyle.css" >
+<script src="utils.js" charset="utf-8" defer></script>
+<script src="home.js" charset="utf-8" defer></script>
+<title>Login page</title>
+</head>
+<body>
+	<h1>PoliMusic</h1>
+	<div>
+		<div class="playlists_table" >
+		<table  id="id_playlistscontainer">
+			<thead >
+				<tr>
+					<th>Playlist</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody id="id_playlistsbody">
+			</tbody>
+		</table>
+		<br>
+		<p id="id_errormsgplaylists"></p>
+		</div>
+		<div>
+		<form  action="#" id="id_newplaylistform">
+		<h2>Create a new playlist</h2>
+			<input type="text" name="playlist_name" placeholder="Playlist name" required />
+			<input id="id_newplaylist" type="submit" name="Create Playlist">
+		</form>
+		<p id="id_errormsgnewplaylist"></p>
+	</div>
+	</div>
+
+
+	<div id="id_songsDiv">
+		<div>
+			<div class=songs_div>
+				<div>
+					<table class="songs_table" id="id_songscontainer">
+						<thead>
+							<tr>
+								<th>Songs</th>
+							</tr>
+						</thead>
+						<tbody id="id_songsbody">
+						</tbody>
+					</table>
+					
+				</div>
+				<div>
+					<input id="id_reorder" type="button" value="Reorder Songs">
+					<input id="id_previoussongs" type="button" value="Previous Songs">
+					<input id="id_followingsongs" type="button" value="Following Songs">
+					<input id="id_saveorder" type="button" value="Save order"><br>
+				</div>
+			</div>
+			<p id="id_errormsgplaylistsongs"></p>
+			<div>
+				
+				<form action="#" id="id_addsongsform">
+					<h2>Add Song to Playlist</h2>
+					<input type="hidden" name="playlist" id="id_playlist"> <select
+						id="id_songselection" name="songToAdd" required></select> <input
+						id="id_addsong" type="submit" name="Add Song">
+				</form>
+				
+			</div>
+
+		<p id="id_errormsgaddsong"></p>
+		</div>
+		
+	</div>
+	
+	<div>
+	<table id="id_playercontainer">
+		<thead ></thead>
+		<tbody id="id_playercontainerbody">
+		</tbody>
+	</table>
+	</div>
+	<div>
+		<audio controls id="playerAudio">
+			<source id="audioSrc" src="">
+		</audio>
+	</div>
+
+	<div>
+			<div>
+				<form id="id_newsongform" action="#" method="POST"
+					enctype="multipart/form-data">
+					<h2>Upload a new song</h2>
+					<input type="text" name="song_title" placeholder="Song title" required /> 
+				    <select name="genre" required>
+						<option value="" disabled selected>Genre</option>
+						<option value="Alternative">Alternative</option>
+						<option value="Blues">Blues</option>
+						<option value="Classic">Classic</option>
+						<option value="Country">Country</option>
+						<option value="Flamenco">Flamenco</option>
+						<option value="Folk">Folk</option>
+						<option value="Funk">Funk</option>
+						<option value="HipHop">Hip Hop</option>
+						<option value="House">House</option>
+						<option value="Indie">Indie</option>
+						<option value="Jazz">Jazz</option>
+						<option value="K-Pop">K-Pop</option>
+						<option value="Latino">Latino</option>
+						<option value="Low-Fi">Low-Fi</option>
+						<option value="Metal">Metal</option>
+						<option value="Pop">Pop</option>
+						<option value="Punk">Punk</option>
+						<option value="Rap">Rap</option>
+						<option value="Rock">Rock</option>
+						<option value="Soul">Soul</option>
+						<option value="Techno">Techno</option>	
+					</select>
+					<select id="id_albumselection" name="album" required>	
+					</select>
+					<input type="file" name="file" id="selectSongFile" required accept="audio/mpeg" />
+					<label for="selectSongFile">Select song file</label>
+					<input id="id_uploadSong" type="submit" name="Create Song">
+				</form>
+			<p id="id_errormsguploadsong"></p>
+		</div>
+	
+		<div>
+			<form action="#" method="POST"
+				enctype="multipart/form-data">
+				<h2>Create a new album</h2>
+				<input type="text" name="album_title" placeholder="Album title" required />
+				<input type="text" name="interpreter" placeholder="Interpreter" required />
+				<input type="number" name="year" placeholder="Publication year" required />
+				<input type="file" name="cover" accept="image/png, image/jpeg" id="selectCoverImage" required />
+				<label for="selectCoverImage">Select cover image</label>
+				<input id="id_newalbum" type="submit" name="Create Album">
+			</form>
+			<p id="id_errormsgnewalbum"></p>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+@charset "ISO-8859-1";
+
+html{
+	background: linear-gradient(90deg, #1CB5E0 0%, #000851 100%);
+}
+
+body,html{
+	font-family: sans-serif;
+	color:#d6d6d6;
+	font-weight: 100;
+	margin : 0;
+    width: 100vw;
+    text-align:center;
+    min-height: 100%;
+}
+
+table {
+	width: 800px;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th, td {
+	text-align: left;
+	padding: 15px;
+	width:100%;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+	transition:0.5s;
+}
+
+td{
+ text-align: center;
+ padding: 5px;
+ width:800px;
+}
+
+thead>tr {
+		background-color: #3cd0d0;	
+}
+tbody>tr:hover{
+	background-color: rgba(255,255,255,0.3);
+    transition:0.5s;
+}
+
+.songs_table>tbody>tr:hover{
+	background-color: rgba(255,255,255,0.1);
+    transition:0.5s;
+}
+
+form {
+  color:gray;
+  margin:  auto;
+  text-align: center;
+  width: 350px;
+  border-radius: 20px;
+  padding:40px;
+  box-sizing: border-box;
+  background: #f3f3f3;
+  box-shadow: 14px 14px 20px  #00000080, -14px -14px 20px #85858524;
+}
+
+div{
+	display:flex;
+	align-items: center;
+	text-align: center;
+    justify-content: center;
+    margin: 40px;
+}
+
+p{
+	margin-left:50px;
+	margin-right:50px;
+}
+
+.playlists_table{
+	flex-direction:column;
+}
+
+.songs_table>tbody>tr>td:hover{
+	background-color: rgba(255,255,255,0.3);
+    transition:0.5s;
+}
+
+h1{
+	color:#3cd0d0;
+	padding:30px;
+	background-color:#ffffff;
+	text-align:left;
+}
+
+h2{
+	color:#3cd0d0;
+	padding-bottom:20px;
+	font-size: 20px; 
+}
+
+a {
+  color: white; 
+  text-decoration: none;
+}
+a:hover{
+	color:#3cd0d0;
+}
+
+input,select,label{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight:bold;
+  color:gray;	
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  box-sizing: border-box;  
+  background: #ecf0f3;
+  padding-top: 8px;
+  padding-left: 20px;
+  height: 50px;
+  font-size: 14px;
+  border-radius: 30px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  transition: 0.5s;
+}
+
+input::placeholder {
+  color: gray;
+}
+
+.songs_div{
+	flex-direction:column;
+}
+
+.songs_div>div{
+	margin:0px;
+}
+.songs_div>div>input{
+	margin-left:50px;
+	margin-right:50px;
+	padding-top:5px;
+	box-shadow: 6px 6px 6px #00000080, -6px -6px 6px #49494930;
+}
+
+
+input[type=submit], input[type=file] {
+  margin-top: 40px;
+  background: #3cd0d0;
+  color: white;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+}
+input[type=file]{
+	background: #666261;
+	margin-top: 20px;
+}
+
+label , input[type=button]{
+  height: 40px;
+  width:170px;
+  padding-left: 0px;
+  padding-top: 10px;
+  background: linear-gradient(45deg, #9fff68, #6fa6d8);
+  box-shadow:  6px 6px 6px #cbced1,  -6px -6px 6px white;
+  color: white;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+label>a:hover{
+	color:white;
+}
+
+label:hover,input[type=submit]:hover,input[type=file]:hover, input[type=button]:hover {
+    box-shadow: none;
+}
+input:hover, select:hover {
+  box-shadow: inset 3px 3px 3px #cbced1, inset -3px -3px 3px white;
+}
+
+img {
+  width: 130px;
+  height : auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+form>label{
+	margin-left:20%;
+}
+
+input[type=file] {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+select:invalid{
+	color: #3cd0d0;
+}
