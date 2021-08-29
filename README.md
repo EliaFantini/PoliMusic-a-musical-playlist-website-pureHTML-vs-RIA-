@@ -19,3 +19,9 @@ The project uses the following languages: Java, Javascript, CSS, HTML, SQL.
 ### How to import the project
 The two versions of the project have been uploaded as a .war file to be imported into Eclipse IDE. For other IDE, all the single files have been uploaded too.
 The database structure has been uploaded as an SQL file.
+### Pure HTML
+<img width="1280" alt="Immagine 2021-08-29 131004" src="https://user-images.githubusercontent.com/62103572/131248547-3e8b1fb0-f367-4962-844c-c9d102af2793.png">
+
+### RIA
+<img width="1270" alt="Immagine 2021-08-29 131211" src="https://user-images.githubusercontent.com/62103572/131248550-d176513c-c52f-4a3f-8062-511ad4eff45b.png">
+
