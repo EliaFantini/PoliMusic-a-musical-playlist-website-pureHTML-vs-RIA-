@@ -31,14 +31,15 @@ The project uses the following languages: Java, Javascript, CSS, HTML, SQL.
 <img width="auto" alt="Immagine 2021-08-29 131211" src="https://user-images.githubusercontent.com/62103572/131248550-d176513c-c52f-4a3f-8062-511ad4eff45b.png">
 
 ## Contents
-* HTML_Pure: folder containing all files for the pure HTML website.
-* RIA: folder containing all files for the RIA website.
-* MATERIALE: folder containing all files used for the project presentations (websites' sequence diagrams and other schemas).
-* DatabaseBuilder.sql: file to be imported in MySQL Workbench to build the database.
-* Installation Guide Eclipse-Tomcat-MySQL-JDBC.pdf: pdf that explains how to install all the softwares.
-* TIW_Project_Playlist.war: file to be imported in EclipseIDE to build the server for the pure HTML website.
-* TIW_Project_Playlist_RIA.war: file to be imported in EclipseIDE to build the server for the RIA website.
-* Presentazione TIW.pdf: pdf with the 
+* **HTML_Pure**: folder containing all files for the pure HTML website.
+* **RIA**: folder containing all files for the RIA website.
+* **MATERIALE**: folder containing all files used for the project presentations (websites' sequence diagrams and other schemas).
+* **DatabaseBuilder.sql**: file to be imported in MySQL Workbench to build the database.
+* **Installation Guide Eclipse-Tomcat-MySQL-JDBC.pdf**: pdf that explains how to install all the softwares.
+* **TIW_Project_Playlist.war**: file to be imported in EclipseIDE to build the server for the pure HTML website.
+* **TIW_Project_Playlist_RIA.war**: file to be imported in EclipseIDE to build the server for the RIA website.
+* **Presentazione TIW.pdf**: pdf with the project presentation of the pure HTML website for the course ( in italian).
+* **Presentazione TIW RIA.pdf**: pdf with the project presentation of the RIA website for the course ( in italian).
 
 ## How to install
 The installation process is quite long and requires the download of different softwares (MySQL Workbench, EclipseIDE, Apache Tomcat 9), a detailed explanation of how to do so is written in the file *Installation Guide Eclipse-Tomcat-MySQL-JDBC.pdf*.
