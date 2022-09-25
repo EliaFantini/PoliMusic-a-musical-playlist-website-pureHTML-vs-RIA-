@@ -51,7 +51,7 @@ The database structure has been uploaded as an SQL file (*DatabaseBuilder.sql*).
 ## 🛠 Skills
 Java EE, Javascript, sql, HTML, css. Creation of a database using MySQL Workbench, coding of a whole backend server using Java EE and Apache Tomcat 9 for the thin client website. Coding of the thick client using Javascript and usage of EclipseIDE for Web Applications development. Design of a minimal, functional and visually appealing UI with CSS and HTML.
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/EliaFantini/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://eliafantini.github.io/Portfolio/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/-elia-fantini/)
 
 
